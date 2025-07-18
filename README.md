@@ -21,8 +21,7 @@
 ## イベントハンドラ
 
 ```pascal
-procedure OnFolderChanged(Sender: TObject;
-  const AddList, DelList, ModList: TStringList) of object;
+procedure OnFileChanged(Sender: TObject;  const AddList, DelList, ModList: TStringList) of object;
 ```
 
 - 追加・削除・更新されたファイルパス一覧を通知します。
@@ -32,17 +31,10 @@ procedure OnFolderChanged(Sender: TObject;
 ```pascal
 FolderWatch := TFolderWatchThread.Create;
 FolderWatch.FolderPath := 'C:\MyFolder';
-FolderWatch.FNotifyFilter := FILE_NOTIFY_CHANGE_FILE_NAME or FILE_NOTIFY_CHANGE_LAST_WRITE;
-FolderWatch.OnChange := YourChangeHandler;
+FolderWatch.OnFileChange := YourChangeHandler;
 FolderWatch.FFirstScanDone := True; // 初回は無視する
 FolderWatch.Start;
 ```
-
-## 設計上の注意
-
-- 内部でファイルのタイムスタンプ (`TDateTime`) による差分判定を行っています。
-- 初回は `ScanDone` によりスナップショットを構築し、差分通知を抑止可能です。
-- スレッド終了時は必ず `Terminate` を呼び出してください。
 
 ## 拡張予定
 
@@ -51,4 +43,4 @@ FolderWatch.Start;
 
 ## ライセンス
 
-MIT License（予定）
+MIT License
