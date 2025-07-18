@@ -340,8 +340,8 @@ begin
         WAIT_OBJECT_0:
         begin
           if Terminated then Break;
-          Sleep(500);
-          ScanAndCompare;
+          Sleep(500);             // 追加・削除・変更の誤検出を避けるため、通知後に少し待つ
+          ScanAndCompare;         // DL完了 or メタデータ更新の余波を吸収する
 
           // 次の通知を再設定
           if not FindNextChangeNotification(FNotificationHandle) then
